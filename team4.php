@@ -175,7 +175,7 @@ function set(data){
    var title = $("#btn_"+data).attr("data-title");
    var answer = $("#btn_"+data).attr("data-answer");
    $("#jawaban").html( '<h1>'+ answer +'</h1>');
-   $("#img").html('<img src="'+img+'"/>' );
+   $("#img").html('<img class="img-responsive" src="'+img+'"/>' );
    $("#nomor").html(title);
    nomor = data;
 }
