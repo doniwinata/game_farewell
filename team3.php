@@ -236,12 +236,17 @@ var Stopwatch = function(elem, options) {
   }
 
   function update() {
-    clock += delta();
+    clock -= delta();
     render();
   }
-
   function render() {
-    timer.innerHTML = clock/1000;
+    var cntrx = 30 + clock/1000;
+    var cntr = cntrx.toFixed(1);
+    if(cntr >0){
+      timer.innerHTML = cntr;
+    }else{
+      timer.innerHTML = "TIMES UP !!";
+    }
   }
 
   function delta() {

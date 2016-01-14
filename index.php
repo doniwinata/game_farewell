@@ -178,9 +178,9 @@
       stopButton  = createButton("stop", stop),
       resetButton = createButton("reset", reset),
       offset,
-      clock,
-      interval;
 
+      interval;
+      var clock = 30;
       // default options
       options = options || {};
       options.delay = options.delay || 1;
@@ -217,6 +217,7 @@
       }
 
       function start() {
+
         if (!interval) {
           offset   = Date.now();
           interval = setInterval(update, options.delay);
@@ -231,19 +232,24 @@
       }
 
       function reset() {
-        clock = 0;
+        clock = 30;
         render();
       }
 
       function update() {
-        clock += delta();
+        clock -= delta();
         render();
       }
 
       function render() {
-        timer.innerHTML = clock/1000;
+        var cntrx = 30 + clock/1000;
+        var cntr = cntrx.toFixed(1);
+        if(cntr >0){
+          timer.innerHTML = cntr;
+        }else{
+          timer.innerHTML = "TIMES UP !!";
+        }
       }
-
       function delta() {
         var now = Date.now(),
         d   = now - offset;
@@ -281,6 +287,7 @@
     var hideJawaban =false;
     var nomor=0;
     function set(data){
+
       $( "#jawaban" ).hide();
       var hideJawaban =false;
       var img = $("#btn_"+data).attr("data-img");
