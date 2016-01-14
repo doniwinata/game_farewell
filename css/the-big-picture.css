@@ -11,7 +11,7 @@ body {
 }
 
 .full {
-  background: url('../img/bg.png') no-repeat center center fixed; 
+  background: url('../img/bg.png') no-repeat center center fixed;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
@@ -73,7 +73,7 @@ body {
 .video-list-thumbs > li > a:hover .duration{
 	background-color:#000;
 }
-@media (min-width:320px) and (max-width: 480px) { 
+@media (min-width:320px) and (max-width: 480px) {
 	.video-list-thumbs .glyphicon-play-circle{
     font-size: 35px;
     right: 36%;
@@ -135,3 +135,9 @@ body {
   font-weight: bold;
 }
 
+.timerx > h1{
+	margin-left:40px;
+	font-weight: 400;
+	font-size:7em;
+
+}

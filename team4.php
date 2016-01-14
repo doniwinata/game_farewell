@@ -102,7 +102,7 @@
                         <button id="btn_<?php echo $conter?>" data-answer = "<?php echo $item ?>" data-toggle="modal" data-target="#modal-fullscreen" data-title="#Soal <?php echo $conter ?>" data-img = "<?php echo $pathImage.$conter.'.jpg'; ?>" onclick="set('<?php echo $conter;?>')" data-img="" style="width:100%;height:100px" type="button" class="btn btn-warning">
                             <span class="nom"><?php echo $conter ?></span></button>
                     </li>
-                    <?php    
+                    <?php
                     $conter++;
                 }
                 ?>
@@ -126,7 +126,7 @@
                 <div class="row">
                     <div class="col-lg-6">
                         <div id ="img">
-                           
+
                        </div>
                    </div>
                    <div class="col-lg-6">
@@ -145,6 +145,10 @@
                              <button onclick="jfalse()" class="btn btn-danger" style="width:100%;height:120px;">
                             <i style="font-size: 7em;" class=" glyphicon glyphicon-remove"></i>
                             </button>
+                        </div>
+                        <hr>
+                        <div class="timerx">
+                          <h1 id="my-stopwatch" ></h1>
                         </div>
                     </div>
                 </div>
@@ -168,17 +172,134 @@
 <script>
 var hideJawaban =false;
 var nomor=0;
-function set(data){
-   $( "#jawaban" ).hide(); 
-   var hideJawaban =false;
-   var img = $("#btn_"+data).attr("data-img");
-   var title = $("#btn_"+data).attr("data-title");
-   var answer = $("#btn_"+data).attr("data-answer");
-   $("#jawaban").html( '<h1>'+ answer +'</h1>');
-   $("#img").html('<img class="img-responsive" src="'+img+'"/>' );
-   $("#nomor").html(title);
-   nomor = data;
+var Stopwatch = function(elem, options) {
+
+  var timer       = createTimer(),
+  startButton = createButton("start", start),
+  stopButton  = createButton("stop", stop),
+  resetButton = createButton("reset", reset),
+  offset,
+  clock,
+  interval;
+
+  // default options
+  options = options || {};
+  options.delay = options.delay || 1;
+
+  // append elements
+  elem.appendChild(timer);
+  //  elem.appendChild(startButton);
+  //    elem.appendChild(stopButton);
+  //    elem.appendChild(resetButton);
+
+  // initialize
+  reset();
+
+  // private functions
+  function createTimer() {
+    var b = document.createElement("div");
+    b.classList.add("timerx");
+    return b;
+  }
+
+  function createButton(action, handler) {
+    var a = document.createElement("a");
+    a.href = "#" + action;
+
+    a.classList.add("btn");
+    a.classList.add("btn-primary");
+
+    a.innerHTML = action;
+    a.addEventListener("click", function(event) {
+      handler();
+      event.preventDefault();
+    });
+    return a;
+  }
+
+  function start() {
+    if (!interval) {
+      offset   = Date.now();
+      interval = setInterval(update, options.delay);
+    }
+  }
+
+  function stop() {
+    if (interval) {
+      clearInterval(interval);
+      interval = null;
+    }
+  }
+
+  function reset() {
+    clock = 0;
+    render();
+  }
+
+  function update() {
+    clock += delta();
+    render();
+  }
+
+  function render() {
+    timer.innerHTML = clock/1000;
+  }
+
+  function delta() {
+    var now = Date.now(),
+    d   = now - offset;
+
+    offset = now;
+    return d;
+  }
+
+  // public API
+  this.start  = start;
+  this.stop   = stop;
+  this.reset  = reset;
+};
+
+var elem = document.getElementById("my-stopwatch");
+var timer = new Stopwatch(elem, {delay: 10});
+
+// start the timer
+timer.start();
+
+// stop the timer
+timer.stop();
+
+// reset the timer
+timer.reset();
+
+var elems = document.getElementsByClassName("stopwatch");
+
+for (var i=0, len=elems.length; i<len; i++) {
+  new Stopwatch(elems[i]);
 }
+
+
+
+var hideJawaban =false;
+var nomor=0;
+function set(data){
+  $( "#jawaban" ).hide();
+  var hideJawaban =false;
+  var img = $("#btn_"+data).attr("data-img");
+  var title = $("#btn_"+data).attr("data-title");
+  var answer = $("#btn_"+data).attr("data-answer");
+  $("#jawaban").html( '<h1>'+ answer +'</h1>');
+  $("#img").html('<img class="img-responsive"  src="'+img+'"/>' );
+  $("#nomor").html(title);
+  nomor = data;
+  timer.reset();
+  timer.start();
+
+
+
+  // reset the timer
+
+}
+
 
 function hide(){
     if(hideJawaban){
@@ -191,7 +312,7 @@ function hide(){
     }
 }
 function jtrue(){
-    
+
     $("#btn_"+nomor).removeClass("btn-warning btn-danger").addClass( "btn-info" );
     $("#cl").click();
 }
